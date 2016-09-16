@@ -1,0 +1,20 @@
+{
+	"name": "austinbillings/rad",
+	"description": "A simple but powerful PHP nanoframework for building APIs at light speed.",
+	"version": "1.0.0",
+	"homepage": "http://www.github.com/austinbillings/rad",
+	"license": "MIT",
+	"require": {
+		"mandrill/mandrill": "1.0.*",
+		"daniel-zahariev/php-aws-ses": "^0.8.8",
+		"html2text/html2text": "^4.0",
+		"sendgrid/sendgrid": "^5.0",
+		"leafo/lessphp": "^0.5.0",
+		"leafo/scssphp": "^0.6.5"
+	},
+	"autoload": {
+		"psr-4": {
+			"Rad\\": "src/"
+		}
+	}
+}
