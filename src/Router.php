@@ -10,7 +10,7 @@ class Router
 	public $query = [];
 	public $completed = false;
 
-	function __construct ($route) {
+	function __construct ($route = null) {
 	  $this->currentRoute = $route;
 
 	  $q = strpos($route, '?');
@@ -18,7 +18,7 @@ class Router
 	  $this->currentMethod = strtolower($_SERVER["REQUEST_METHOD"]);
 
 		if ($q !== false) {
-			$this->query = parseQuery(substr($route, $q+1));
+			$this->query = Tools::parseQuery(substr($route, $q+1));
 		}
 	}
 
@@ -53,7 +53,7 @@ class Router
 	  }
 	}
 
-	public function smash ($route) {
+	public function segmentPath ($route) {
 	  $route = (substr($route,0,1) === "/" ? substr($route, 1) : $route);
 	  $route = (substr($route,-1) === "/" ? substr($route,0,-1) : $route);
 	  return explode('/', substr($route, 1));
@@ -61,8 +61,8 @@ class Router
 
 	public function run ($route, $callback) {
 	  $params = [];
-	  $currentBits = $this->smash($this->currentRoute);
-	  $targetBits = $this->smash($route);
+	  $currentBits = $this->segmentPath($this->currentRoute);
+	  $targetBits = $this->segmentPath($route);
 
 	  if (count($currentBits) !== count($targetBits)) {
 	    return;

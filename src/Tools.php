@@ -136,12 +136,13 @@ class Tools
 		return $prefix . '/' . implode('/', $export);
 	}
 
-	public static function autopath () {
+	public static function autopath () { // Util to automatically build a path from given args
 		$pathParts = func_get_args();
 		$output = "";
+		$slash = DIRECTORY_SEPARATOR;
 		foreach ($pathParts as $idx => $part) {
 			if ($idx == 0 && substr($part, 0, 1) === "." && substr($part, 0, 2) === "./") {
-				$output .= "./";
+				$output .= "." . $slash;
 				$part = substr($part, 2);
 			} elseif ($idx === 0 && strpos($part, 'http://') === 0) {
 				$output .= "http://";
@@ -149,8 +150,10 @@ class Tools
 			} elseif ($idx === 0 && strpos($part, 'https://') === 0) {
 				$output .= "https://";
 				$part = substr($part, 8);
+			} elseif ($idx === 0 && strpos($part, ':') === 1) {
+				$output .= "";
 			} elseif (substr($output, -1) !== '/') {
-				$output .= "/";
+				$output .= $slash;
 			}
 			if (substr($part, 0, 1) === "/") {
 				$part = substr($part, 1);
@@ -161,6 +164,46 @@ class Tools
 			$output .= $part;
 		}
 		return $output;
+	}
+
+	public static function slugify ($in, $spacer = '-') {
+		return strtolower(str_replace(' ', $spacer, $in));
+	}
+
+	public static function injectStyle ($styleObj, $useAttribute = true) {
+		$out = "";
+		if ($useAttribute) {
+			$out .= "style=\"";
+		};
+		foreach ($styleObj as $prop => $val) {
+			$out .= $prop . ":" . $val . ";";
+		}
+		if ($useAttribute) {
+			$out .= "\"";
+		}
+		return $out;
+	}
+
+	public static function integrate ($coat, $base) {
+		if (!is_array($coat) || !is_array($base)) {return false;}
+		foreach ($coat as $key => $val) {
+			$base[$key] = $val;
+		}
+		return $base;
+	}
+
+	public static function jsonify ($in) {
+		return json_encode($in, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+	}
+
+	// Cookies
+	public static function cook ($name, $val, $expiration = null) {
+		$expiration = ($expiration === null ? time() + (60 * 60 * 24) : $expiration);
+		setcookie($name, $val, $expiration, '/');
+	}
+
+	public static function uncook ($name) {
+		setcookie($name, '', 1, '/');
 	}
 
 	/*============================================================

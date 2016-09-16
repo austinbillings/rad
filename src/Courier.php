@@ -43,7 +43,7 @@ class Courier extends Base
 			}
 		} else {
 			$this->message["text"] = $message;
-			if ($setBoth) { $this->message["html"] = textToHtml($message); }
+			if ($setBoth) { $this->message["html"] = Tools::textToHtml($message); }
 		}
 		return true;
 	}
@@ -72,7 +72,7 @@ class Courier extends Base
 	}
 
 	public function applySettings ($settings) {
-		$this->settings = $this->integrate($settings, $this->settings);
+		$this->settings = Tools::integrate($settings, $this->settings);
 	}
 
 	public function setSubject ($subject) {
@@ -93,7 +93,7 @@ class Courier extends Base
 
 	public function addCC ($email) {
 		if (is_array($email)) {
-			$this->settings["cc"] = integrate($email, $this->settings["cc"]);
+			$this->settings["cc"] = Tools::integrate($email, $this->settings["cc"]);
 		} else {
 			$this->settings["cc"][] = $email;
 		}

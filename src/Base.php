@@ -11,9 +11,9 @@ class Base
 	public $verbose = false;
 
 	public function __construct ($logFailures = null, $verbose = null) {
-		self::$meta["timestamp"] = time();
-		self::$meta["uri"] = $_SERVER["REQUEST_METHOD"] .' '. $_SERVER["REQUEST_URI"];
-		self::$meta["requestID"] = generateUniqueID(12);
+		static::$meta["timestamp"] = time();
+		static::$meta["uri"] = $_SERVER["REQUEST_METHOD"] .' '. $_SERVER["REQUEST_URI"];
+		static::$meta["requestID"] = Tools::generateUniqueID(12);
 		if (!is_null($logFailures)) {
 			$this->logFailures = $logFailures;
 		}
@@ -33,7 +33,7 @@ class Base
 	}
 
 	public function checkQueryString () {
-		$query = parseQuery($_SERVER['QUERY_STRING']);
+		$query = Tools::parseQuery($_SERVER['QUERY_STRING']);
 		if (isset($query["envelope"])) {
 			$this->verbose = $query["envelope"];
 		}
@@ -51,12 +51,12 @@ class Base
 			"error" => $message
 		];
 
-		$diagnostic = $this->integrate($e, self::$meta);
+		$diagnostic = Tools::integrate($e, static::$meta);
 
-		if ($this->logFailures) { error_log($this->jsonify($diagnostic)); }
-		if (!is_null($code)) { self::$errorCode = $code; }
+		if ($this->logFailures) { error_log(Tools::jsonify($diagnostic)); }
+		if (!is_null($code)) { static::$errorCode = $code; }
 
-		http_response_code(self::$errorCode);
+		http_response_code(static::$errorCode);
 
 		if ($this->verbose) {
 			$this->render($diagnostic);
@@ -67,10 +67,10 @@ class Base
 
 	public function warn ($message) {
 		if (!empty($message)) {
-			if (empty(self::$warnings)) {
-				self::$warnings = [];
+			if (empty(static::$warnings)) {
+				static::$warnings = [];
 			}
-			self::$warnings[] = $message;
+			static::$warnings[] = $message;
 		}
 	}
 
@@ -80,66 +80,6 @@ class Base
 	//      UTILS       //
 	//                  //
 	//////////////////////
-
-	public function integrate ($coat, $base) {
-		if (!is_array($coat) || !is_array($base)) {return false;}
-		foreach ($coat as $key => $val) {
-			$base[$key] = $val;
-		}
-		return $base;
-	}
-
-	public function jsonify ($in) {
-		return json_encode($in, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-	}
-
-	public function autopath () { // Util to automatically build a path from given args
-		$pathParts = func_get_args();
-		$output = "";
-		$slash = DIRECTORY_SEPARATOR;
-		foreach ($pathParts as $idx => $part) {
-			if ($idx == 0 && substr($part, 0, 1) === "." && substr($part, 0, 2) === "./") {
-				$output .= "." . $slash;
-				$part = substr($part, 2);
-			} elseif ($idx === 0 && strpos($part, 'http://') === 0) {
-				$output .= "http://";
-				$part = substr($part, 7);
-			} elseif ($idx === 0 && strpos($part, 'https://') === 0) {
-				$output .= "https://";
-				$part = substr($part, 8);
-			} elseif ($idx === 0 && strpos($part, ':') === 1) {
-				$output .= "";
-			} elseif (substr($output, -1) !== '/') {
-				$output .= $slash;
-			}
-			if (substr($part, 0, 1) === "/") {
-				$part = substr($part, 1);
-			}
-			if (substr($part, -1) === "/") {
-				$part = substr($part, 0, -1);
-			}
-			$output .= $part;
-		}
-		return $output;
-	}
-
-	public function slugify ($in, $spacer = '-') {
-		return strtolower(str_replace(' ', $spacer, $in));
-	}
-
-	public function injectStyle ($styleObj, $useAttribute = true) {
-		$out = "";
-		if ($useAttribute) {
-			$out .= "style=\"";
-		};
-		foreach ($styleObj as $prop => $val) {
-			$out .= $prop . ":" . $val . ";";
-		}
-		if ($useAttribute) {
-			$out .= "\"";
-		}
-		return $out;
-	}
 
 	// CSS Preprocessors
 	public function toCSS ($filePath, $mode = "less") {
@@ -165,16 +105,6 @@ class Base
 		}
 	}
 
-	// Cookies
-	public function cook ($name, $val, $expiration = null) {
-		$expiration = ($expiration === null ? time() + (60 * 60 * 24) : $expiration);
-		setcookie($name, $val, $expiration, '/');
-	}
-
-	public function uncook ($name) {
-		setcookie($name, '', 1, '/');
-	}
-
 	// ===========================================================================
 	// FILE UTILS
 	// ===========================================================================
@@ -186,7 +116,7 @@ class Base
 		if (is_dir($directoryPath)){
 			if ($openDir = opendir($directoryPath)) {
 				while (false !== ($filenamePointer = readdir($openDir))){
-					$extension = getFileExtension($filenamePointer);
+					$extension = Tools::getFileExtension($filenamePointer);
 					if (is_null($types) || (is_array($types) && in_array($extension, $types)) || (is_string($types) && $extension === $types) || (is_dir($filenamePointer) && $types === false)) {
 						if ($noExclusions || !in_array($filenamePointer, $excludes)) {
 							$list[] = $filenamePointer;
@@ -285,7 +215,7 @@ class Base
 	}
 
 	// send an array or whatever to ->respond() and it will respond as
-	// json with only $payload, OR self::$output if no payload given
+	// json with only $payload, OR static::$output if no payload given
 	public function deliver ($payload = null) {
 		$output = [];
 
@@ -295,16 +225,16 @@ class Base
 			$output = $payload;
 		}
 		if ($this->verbose) {
-			$output = $this->integrate(self::$meta, $output);
+			$output = Tools::integrate(static::$meta, $output);
 		}
 
 		# TODO make this work with numeric indexed arrays
-		if (!empty(self::$warnings) && is_array($output)) {
-			$output["warnings"] = self::$warnings;
+		if (!empty(static::$warnings) && is_array($output)) {
+			$output["warnings"] = static::$warnings;
 		}
 
 		header('Content-Type: application/json');
-		echo $this->jsonify($output);
+		echo Tools::jsonify($output);
 		die();
 	}
 }
