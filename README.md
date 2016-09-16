@@ -43,7 +43,7 @@ Recommended usage:
 
 	class MyClass {
 		public function example () {
-			echo Tools::firstname('Austin Billings');
+			echo Tools::firstName('Austin Billings');
 			# Returns "Austin"
 		}
 	}
