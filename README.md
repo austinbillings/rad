@@ -19,13 +19,14 @@ Provides various methods to perform actions based on the given URI.
 Example:
 
 	$router = Rad\Router($currentURI);
+	$entity = Rad\Base;
 
 	$router->get('/users', function ($params, $query) {
-		$this->deliver($userClass->getList());
+		$entity->deliver($userClass->getList());
 	});
 
 	$router->get('/users/:userID', function ($params, $query) {
-		$this->deliver($userClass->getUser($params["userID"]));
+		$entity->deliver($userClass->getUser($params["userID"]));
 	});
 
 ### Rad\Controller
