@@ -2,7 +2,7 @@
 	"name": "austinbillings/rad",
 	"description": "A simple but powerful PHP nanoframework for building APIs at light speed.",
 	"version": "1.0.0",
-	"homepage": "http://www.github.com/austinbillings/rad",
+	"homepage": "http://github.com/austinbillings/rad",
 	"license": "MIT",
 	"require": {
 		"mandrill/mandrill": "1.0.*",
@@ -16,5 +16,11 @@
 		"psr-4": {
 			"Rad\\": "src/"
 		}
-	}
+	},
+	"repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/austinbillings/rad"
+    }
+	]
 }
