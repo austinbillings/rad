@@ -176,7 +176,7 @@ class Base
 			$this->rage("Attempted to write empty JSON object to file: '{$path}'.");
 		}
 		if ($pretty) {
-			$content = $this->jsonify($obj);
+			$content = Tools::jsonify($obj);
 		} else {
 			$content = json_encode($obj, JSON_UNESCAPED_SLASHES);
 		}
