@@ -166,8 +166,22 @@ class Tools
 		return $output;
 	}
 
-	public static function slugify ($in, $spacer = '-') {
-		return strtolower(str_replace(' ', $spacer, $in));
+	public static function slugify ($in, $spacer = '-', $maxLength = false) {
+		$removals = str_split(" !@#$%^&*()_-`~+=[]{}|\\;:'\"<,>.?/");
+		$out = str_replace($removals, $spacer, $in);
+		$redundancy = 5;
+		$redundants = [];
+		$temp = $spacer;
+		while (count($redundants) <= $redundancy) {
+			$redundants[] = $temp;
+			$temp .= $spacer;
+		}
+		$out = str_replace(array_reverse($redundants), $spacer, $out);
+		$out = trim(strtolower($out), $spacer);
+		if ($maxLength !== false && is_integer($maxLength)) {
+			$out = trim(substr($out, 0, $maxLength), $spacer);
+		}
+		return $out;
 	}
 
 	public static function injectStyle ($styleObj, $useAttribute = true) {
