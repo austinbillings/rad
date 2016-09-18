@@ -2,7 +2,7 @@
 
 _A PHP nanoframework for building APIs at light speed._
 
-# Documentation
+## Documentation
 
 Rad provides the following basic classes to get you started building an API.
 
