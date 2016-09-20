@@ -10,7 +10,7 @@ class Controller extends Base
 
 	//////////////////////////////////////////////////////////////////////////////
 
-	function __construct ($routePrefix = null) {
+	public function __construct ($routePrefix = null) {
 		// Setup
 		parent::__construct();
 		$this->input = json_decode(file_get_contents('php://input'),true);
