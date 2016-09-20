@@ -10,7 +10,8 @@
 		"html2text/html2text": "^4.0",
 		"sendgrid/sendgrid": "^5.0",
 		"leafo/lessphp": "^0.5.0",
-		"leafo/scssphp": "^0.6.5"
+		"leafo/scssphp": "^0.6.5",
+		"lcobucci/jwt": "^3.2"
 	},
 	"autoload": {
 		"psr-4": {

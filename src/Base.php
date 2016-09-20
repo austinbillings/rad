@@ -194,7 +194,7 @@ class Base
 			echo $content;
 		} else {
 			header('Content-Type: application/json');
-			echo $this->jsonify($content);
+			echo Tools::jsonify($content);
 		}
 		die();
 	}
