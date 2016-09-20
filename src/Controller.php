@@ -4,7 +4,7 @@ namespace Rad;
 
 class Controller extends Base
 {
-	private $input = [];
+	public $input = [];
 	public $route;
 	public $method;
 
