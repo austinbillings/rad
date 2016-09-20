@@ -32,6 +32,14 @@ class Tools
 	// 	Paths, URIs, and URLs
 	============================================================*/
 
+	public static function getSiteURL () {
+		return "http" . (isset($_SERVER["HTTPS"]) ? "s" : "") . "://" . $_SERVER["HTTP_HOST"];
+	}
+
+	public static function getFullURL () {
+		return static::getSiteUrl()."/".$_SERVER["REQUEST_URI"];
+	}
+
 	// if string contains period rtn true
 	public static function containsPeriod($input) {
 		return (is_string($input) && strpos($input, ".") !== false);
