@@ -110,7 +110,12 @@ class Auth extends Base
 		$parser = new \Lcobucci\JWT\Parser;
 		$token = $parser->parse($token);
 		$inspector->setIssuer(Tools::getSiteURL());
-		return ($token->validate($inspector) && $token->verify($signer, $this->signatureKey));
+		try {
+			return ($token->validate($inspector) && $token->verify($signer, $this->signatureKey));
+		} catch (Exception $e) {
+			$this->rage("JWT Error: ".$e->getMessage());
+		}
+
 	}
 
 	/*----------------------------------------------------------------------------
