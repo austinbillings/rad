@@ -9,8 +9,9 @@ class Base
 	public static $errorCode = 400;
 	public $logFailures = false;
 	public $verbose = false;
+	public $silent = false;
 
-	public function __construct ($logFailures = null, $verbose = null) {
+	public function __construct ($logFailures = null, $verbose = null, $silent = null) {
 		static::$meta["timestamp"] = time();
 		static::$meta["uri"] = $_SERVER["REQUEST_METHOD"] .' '. $_SERVER["REQUEST_URI"];
 		static::$meta["requestID"] = Tools::generateUniqueID(12);
@@ -20,17 +21,23 @@ class Base
 		if (!is_null($verbose)) {
 			$this->verbose = $verbose;
 		}
+		if (!is_null($silent)) {
+			$this->silent = $silent;
+		}
 		$this->checkQueryString();
 	}
 
 	public function setLogFailures ($val) {
 		$this->logFailures = $val;
 	}
-
+	public function setSilent ($val) {
+		$this->silent = $val;
+	}
 	public function setVerbose ($val) {
 		$this->verbose = $val;
 		$this->checkQueryString();
 	}
+
 
 	public function checkQueryString () {
 		$query = Tools::parseQuery($_SERVER['QUERY_STRING']);
@@ -229,7 +236,7 @@ class Base
 		}
 
 		# TODO make this work with numeric indexed arrays
-		if (!empty(static::$warnings) && is_array($output)) {
+		if (!empty(static::$warnings) && is_array($output) && !$this->silent) {
 			$output["warnings"] = static::$warnings;
 		}
 
