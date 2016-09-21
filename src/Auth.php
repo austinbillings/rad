@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 namespace Rad;
 
@@ -107,8 +107,8 @@ class Auth extends Base
 		$config = new \Lcobucci\JWT\Builder;
 		$signer = new \Lcobucci\JWT\Signer\Hmac\Sha256;
 		$inspector = new \Lcobucci\JWT\ValidationData;
-
-		$token = $config->getParser()->parse($token);
+		$parser = new \Lcobucci\JWT\Parser;
+		$token = $parser->parse($token);
 		$inspector->setIssuer(Tools::getSiteURL());
 		return ($token->validate($inspector) && $token->verify($signer, $this->signatureKey));
 	}
