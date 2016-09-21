@@ -72,10 +72,9 @@ class Auth extends Base
 		$reservedClaims = ["iss","aud","jti","iat","nbf","exp"];
 
 		$config
-			->createBuilder()
-			->setIssuer(Tools::getSiteURL())
-			->setIssuedAt(time())
-			->setExpiration(time() + 10800);
+		->setIssuer(Tools::getSiteURL())
+		->setIssuedAt(time())
+		->setExpiration(time() + 10800);
 		foreach ($options as $key => $val) {
 			switch (strtolower($key)) {
 				case "expiration":
@@ -108,7 +107,7 @@ class Auth extends Base
 		$config = new \Lcobucci\JWT\Builder;
 		$signer = new \Lcobucci\JWT\Signer\Hmac\Sha256;
 		$inspector = new \Lcobucci\JWT\ValidationData;
-		
+
 		$token = $config->getParser()->parse($token);
 		$inspector->setIssuer(Tools::getSiteURL());
 		return ($token->validate($inspector) && $token->verify($signer, $this->signatureKey));
