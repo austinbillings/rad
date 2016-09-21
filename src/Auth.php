@@ -2,9 +2,6 @@
 
 namespace Rad;
 
-use \Lcobucci\JWT\Configuration;
-use \Lcobucci\JWT\ValidationData;
-
 class Auth extends Base
 {
 	public $users;
@@ -70,8 +67,8 @@ class Auth extends Base
 	public function buildToken ($options, $claims) {
 		if (empty($this->signatureKey)) $this->rage("Can't create JWT: no signature key provided.");
 
-		$config = new Configuration;
-		$signer = $config->getSigner();
+		$config = new \Lcobucci\JWT\Builder;
+		$signer = new \Lcobucci\JWT\Signer\Hmac\Sha256;
 		$reservedClaims = ["iss","aud","jti","iat","nbf","exp"];
 
 		$config
@@ -108,10 +105,11 @@ class Auth extends Base
 	public function verifyToken ($token) {
 		if (empty($this->signatureKey)) $this->rage("Can't verify JWT: no signature key provided.");
 		if (!is_string($token)) $this->rage("Can't verify JWT: non-string token provided.");
-		$config = new Configuration;
-		$signer = $config->getSigner();
+		$config = new \Lcobucci\JWT\Builder;
+		$signer = new \Lcobucci\JWT\Signer\Hmac\Sha256;
+		$inspector = new \Lcobucci\JWT\ValidationData;
+		
 		$token = $config->getParser()->parse($token);
-		$inspector = new ValidationData;
 		$inspector->setIssuer(Tools::getSiteURL());
 		return ($token->validate($inspector) && $token->verify($signer, $this->signatureKey));
 	}
