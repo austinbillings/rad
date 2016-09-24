@@ -174,9 +174,10 @@ class Tools
 		return $output;
 	}
 
-	public static function slugify ($in, $spacer = '-', $maxLength = false) {
+	public static function slugify ($input, $spacer = '-', $maxLength = false) {
+		$input = static::normalizeCharacters($input);
 		$removals = str_split(" !@#$%^&*()_-`~+=[]{}|\\;:'\"<,>.?/");
-		$out = str_replace($removals, $spacer, $in);
+		$output = str_replace($removals, $spacer, $input);
 		$redundancy = 5;
 		$redundants = [];
 		$temp = $spacer;
@@ -184,24 +185,37 @@ class Tools
 			$redundants[] = $temp;
 			$temp .= $spacer;
 		}
-		$out = str_replace(array_reverse($redundants), $spacer, $out);
-		$out = trim(strtolower($out), $spacer);
+		$output = str_replace(array_reverse($redundants), $spacer, $output);
+		$output = trim(strtolower($output), $spacer);
 		if ($maxLength !== false && is_integer($maxLength)) {
-			$out = trim(substr($out, 0, $maxLength), $spacer);
+			$output = trim(substr($output, 0, $maxLength), $spacer);
 		}
-		return $out;
+		return $output;
+	}
+
+	public function normalizeCharacters ($input) {
+		$replacements = [ 'Š'=>'S', 'š'=>'s', 'Ð'=>'Dj','Ž'=>'Z', 'ž'=>'z',
+			'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A',
+			'Ç'=>'C', 'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I',
+			'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ń'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O',
+			'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U',
+			'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss','à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a',
+			'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e', 'ê'=>'e',
+			'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n',
+			'ń'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o',
+			'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ü'=>'u', 'ý'=>'y', 'ý'=>'y', 'þ'=>'b',
+			'ÿ'=>'y', 'ƒ'=>'f', 'ă'=>'a', 'î'=>'i', 'â'=>'a', 'ș'=>'s', 'ț'=>'t',
+			'Ă'=>'A', 'Î'=>'I', 'Â'=>'A', 'Ș'=>'S', 'Ț'=>'T' ];
+		return strstr($input, $replacements);
 	}
 
 	public static function injectStyle ($styleObj, $useAttribute = true) {
 		$out = "";
-		if ($useAttribute) {
-			$out .= "style=\"";
-		};
 		foreach ($styleObj as $prop => $val) {
 			$out .= $prop . ":" . $val . ";";
 		}
 		if ($useAttribute) {
-			$out .= "\"";
+			$out = "style=\"" . $out . "\"";
 		}
 		return $out;
 	}

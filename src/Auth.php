@@ -115,11 +115,10 @@ class Auth extends Base
 		} catch (Exception $e) {
 			$this->rage("JWT Error: ".$e->getMessage());
 		}
-
 	}
 
 	/*----------------------------------------------------------------------------
-	// JSON WEB TOKENS
+	// Regex Validators
 	----------------------------------------------------------------------------*/
 
 	public function test ($mode, $input, $confirm = null) {
