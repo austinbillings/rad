@@ -206,7 +206,7 @@ class Tools
 			'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ü'=>'u', 'ý'=>'y', 'ý'=>'y', 'þ'=>'b',
 			'ÿ'=>'y', 'ƒ'=>'f', 'ă'=>'a', 'î'=>'i', 'â'=>'a', 'ș'=>'s', 'ț'=>'t',
 			'Ă'=>'A', 'Î'=>'I', 'Â'=>'A', 'Ș'=>'S', 'Ț'=>'T' ];
-		return strstr($input, $replacements);
+		return strtr($input, $replacements);
 	}
 
 	public static function injectStyle ($styleObj, $useAttribute = true) {
