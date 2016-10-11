@@ -162,10 +162,10 @@ Actually returns the segment of the given string before the last period present.
 
 #### Example
 ```php
-Tools::getFileExtension('/images/photo.jpg');
+Tools::stripFileExtension('/images/photo.jpg');
 // returns '/images/photo'
 
-Tools::getFileExtension('/path/to/my/file.xml');
+Tools::stripFileExtension('/path/to/my/file.xml');
 // returns '/path/to/my/file'
 ```
 
