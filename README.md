@@ -50,7 +50,7 @@ class MyClass {
 }
 ```
 
-See more [at their documentation](https://github.com/austinbillings/Rad/blob/master/doc/Rad\\Tols.md).
+See more [at their documentation](https://github.com/austinbillings/Rad/blob/master/doc/Rad\Tools.md).
 
 ### Rad\Courier
 
