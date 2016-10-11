@@ -32,7 +32,7 @@ $router->get('/users/:userID', function ($params, $query) {
 
 #### `Rad\Controller`
 
-A class which provides a basic API controller. Automatically gathers data sent to `php://input` as `$this->input`. Automatically instantiates a `Rad\Router` as `$this->route` with the current request URI as .
+A class which provides a basic API controller. Automatically gathers data sent to `php://input` as `$this->input`, and other cool things I'll write about sooner or later.
 
 #### `Rad\Tools`
 
