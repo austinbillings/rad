@@ -196,7 +196,7 @@ Tools::parseQuery($q);
 // Returns the following array (expressed here as JSON):
 
 {
-  "name": "Argloy Bilnog"
+  "name": "Argloy Bilnog",
   "age": 24,
   "score": 92.817,
   "subscribe": false,
