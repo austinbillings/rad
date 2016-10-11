@@ -172,7 +172,7 @@ Actually returns the segment of the given string before the last period present.
 
  This function performs an automatic type-casting of the given values (but leaves key names untouched).
 
- - Empty string values (e.g. the value of `myvar` in  ``?myvar=&name=Steve`) are converted to `null`.
+ - Empty string values (e.g. the value of `myvar` in  `?myvar=&name=Steve`) are converted to `null`.
  - The values "true" and "false" (case-insensitive) are converted to actual `true` and `false` values, respectively.
  - Numeric values (i.e. those which pass PHP's stock `is_numeric()` test) are converted to `int` and `float` types (by adding 0 to their value, forcing PHP to intelligently identify integers and floats).
  - All other values (basically, all other strings) are URL-decoded.
