@@ -179,15 +179,14 @@ Actually returns the segment of the given string before the last period present.
 
  #### Example
 
-    // A query string.
-    $q = "?name=Argloy%20Bilnog&age=24&score=92.817&subscribe=false&email="
-    Tools::parseQuery($q);
+      $q = "?name=Argloy%20Bilnog&age=24&score=92.817&subscribe=false&email="
+      Tools::parseQuery($q);
 
-    // Returns the following array (expressed here as JSON):
-    //  {
-    //    "name": "Argloy Bilnog"
-    //    "age": 24,
-    //    "score": 92.817,
-    //    "subscribe": false
-    //    "email": null
-    //  }
+Returns the following array (expressed here as JSON):
+      {
+        "name": "Argloy Bilnog"
+        "age": 24,
+        "score": 92.817,
+        "subscribe": false
+        "email": null
+      }
