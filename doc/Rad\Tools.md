@@ -188,9 +188,9 @@ Tools::stripFileExtension('/path/to/my/file.xml');
  - Numeric values (i.e. those which pass PHP's stock `is_numeric()` test) are converted to `int` and `float` types (by adding 0 to their value, forcing PHP to intelligently identify integers and floats).
  - All other values (basically, all other strings) are URL-decoded.
 
- #### Example
+#### Example
 ```php
-$q = "?name=Argloy%20Bilnog&age=24&score=92.817&subscribe=false&email="
+$q = "?name=Argloy%20Bilnog&age=24&score=92.817&subscribe=false&email=";
 Tools::parseQuery($q);
 
 // Returns the following array (expressed here as JSON):
