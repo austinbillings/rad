@@ -199,7 +199,7 @@ Tools::parseQuery($q);
   "name": "Argloy Bilnog"
   "age": 24,
   "score": 92.817,
-  "subscribe": false
+  "subscribe": false,
   "email": null
 }
 ```
