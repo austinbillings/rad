@@ -33,7 +33,7 @@ class Tools
 	============================================================*/
 
 	public static function getSiteURL () {
-		return "http" . (isset($_SERVER["HTTPS"]) ? "s" : "") . "://" . $_SERVER["HTTP_HOST"];
+		return "http" . (isset($_SERVER["HTTPS"]) ? "s" : "") . "://" . $_SERVER["HTTP_HOST"] . ($_SERVER['SERVER_PORT'] == 80 ? "" : $_SERVER['SERVER_PORT']);
 	}
 
 	public static function getFullURL () {
@@ -51,11 +51,18 @@ class Tools
 	}
 
 	// returns everything up to file extension
-	public static function removeFileExtension ($input) {
+	public static function stripFileExtension ($input) {
 		return (static::containsPeriod($input) ? substr($input, 0, strrpos($input, ".")) : false);
 	}
 
+	// deprecated
+	public static function removeFileExtension ($input) {
+		return static::withoutFileExtension($input);
+	}
+
 	public static function parseQuery ($queryString) {
+		if (!is_string($queryString) || !strlen($queryString)) return false;
+		if (substr($queryString, 0, 1) === "?") $queryString = substr($queryString, 1);
 		$queryArray = explode('&', $queryString);
 		$output = [];
 
@@ -65,8 +72,8 @@ class Tools
 			$val = (isset($x[1]) ? $x[1] : null);
 
 			if ($val === "") $val = null;
-			elseif ($val === "true") $val = true;
-			elseif ($val === "false") $val = false;
+			elseif (strtolower($val) === "true") $val = true;
+			elseif (strtolower($val) === "false") $val = false;
 			elseif (is_numeric($val)) $val = $val + 0;
 			else $val = urldecode($val);
 

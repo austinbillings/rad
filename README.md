@@ -50,6 +50,8 @@ class MyClass {
 }
 ```
 
+See more [at their documentation](https://github.com/austinbillings/Rad/blob/master/doc/Rad\\Tols.md).
+
 ### Rad\Courier
 
 A class which extends `Rad\Base` and provides tools for preparing and sending email server-side.
