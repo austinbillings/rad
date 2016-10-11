@@ -6,16 +6,18 @@ The `Rad\Tools` class is a utility class for Rad that provides a whole mess of u
 
 These functions are all static class methods, so you don't need to instantiate the `Rad\Tools` class in order to use them. Simply `use` the class like so:
 
-    <?php
+```php
+<?php
 
-    namespace MyApp
-    use \Rad\Tools  
-    // now the 'Tools' class refers to the Rad Tools.
+namespace MyApp
+use \Rad\Tools  
+// now the 'Tools' class refers to the Rad Tools.
 
-    class MyClass extends \Rad\Base
-    {
-      // Do yo thang, homie
-    }
+class MyClass extends \Rad\Base
+{
+  // Do yo thang, homie
+}
+```
 
 # The Tools
 
@@ -37,10 +39,11 @@ Returns a `string` best guess at a first name (or given name) given an expected 
 
 #### Example
 
-    Tools::firstName("Argloy Joyseif Bilnog");
+```php
+Tools::firstName("Argloy Joyseif Bilnog");
 
-    // returns "Argloy";
-
+// returns "Argloy";
+```
 
 
 ### `Tools::lastName(string $input)`
@@ -55,9 +58,11 @@ Returns a `string` best guess at a last name (or surname) given an expected full
 
 #### Example
 
-    echo Tools::firstName("Argloy Awarranton Bilnog");
+```php
+Tools::firstName("Argloy Joyseif Bilnog");
 
-    // echoes "Bilnog";
+// returns "Bilnog";
+```
 
 ---
 
@@ -73,11 +78,12 @@ Returns the `string` URL of the current host, including protocol and port number
 
 #### Example
 
-    echo Tools::getSiteURL();
+```php
+Tools::getSiteURL();
 
-    // echoes "http://localhost:1234";
-    // or something like "https://mydomain.com"
-
+// returns "http://localhost:1234";
+// or maybe something like "https://mydomain.com"
+```
 
 ### `Tools::getFullURL(void)`
 
@@ -90,10 +96,11 @@ Returns the `string` URL of the request, including protocol and port number (if 
 
 #### Example
 
-    echo Tools::getFullURL();
+```php
+Tools::getFullURL();
 
-    // echoes "http://localhost:1234/api/books/1234";
-
+// returns "http://localhost:1234/api/books/1234";
+```
 
 ### `Tools::containsPeriod(string $input)`
 
@@ -106,12 +113,14 @@ Returns the `string` URL of the request, including protocol and port number (if 
 Returns a `boolean` indicating the presence of a period in the string given by `$input`.
 
 #### Example
+```php
+Tools::containsPeriod('/path/to/a/directory');
+// returns false
 
-    Tools::containsPeriod('/path/to/a/directory');
-    // returns false
+Tools::containsPeriod('/path/to/my/file.jpg');
+// returns true
+```
 
-    Tools::containsPeriod('/path/to/my/file.jpg');
-    // returns true
 
 ### `Tools::getFileExtension(string $input)`
 
@@ -127,12 +136,13 @@ Returns a `boolean` indicating the presence of a period in the string given by `
 Actually returns the segment of the given string following the last period present. The returned extension is always lowercase and doesn't include the period preceding the file extension.
 
 #### Example
+```php
+Tools::getFileExtension('/images/photo.jpg');
+// returns 'jpg'
 
-    Tools::getFileExtension('/images/photo.jpg');
-    // returns 'jpg'
-
-    Tools::getFileExtension('/path/to/my/file.xml');
-    // returns 'xml'
+Tools::getFileExtension('/path/to/my/file.xml');
+// returns 'xml'
+```
 
 
 ### `Tools::stripFileExtension(string $input)`
@@ -151,12 +161,13 @@ Actually returns the segment of the given string following the last period prese
 Actually returns the segment of the given string before the last period present. The returned filename is always lowercase and doesn't include the period preceding the file extension.
 
 #### Example
+```php
+Tools::getFileExtension('/images/photo.jpg');
+// returns '/images/photo'
 
-    Tools::getFileExtension('/images/photo.jpg');
-    // returns '/images/photo'
-
-    Tools::getFileExtension('/path/to/my/file.xml');
-    // returns '/path/to/my/file'
+Tools::getFileExtension('/path/to/my/file.xml');
+// returns '/path/to/my/file'
+```
 
 
 ### `Tools::parseQuery(string $queryString)`
