@@ -82,7 +82,7 @@ Returns the `string` URL of the current host, including protocol and port number
 ### `Tools::getFullURL(void)`
 
 
-** Get the the current requested URI, including domain, protocol, and port number. **
+**Get the the current requested URI, including domain, protocol, and port number.**
 
 *This function accepts no parameters.*
 
