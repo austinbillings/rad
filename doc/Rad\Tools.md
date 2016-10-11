@@ -183,6 +183,7 @@ Actually returns the segment of the given string before the last period present.
       Tools::parseQuery($q);
 
 Returns the following array (expressed here as JSON):
+
       {
         "name": "Argloy Bilnog"
         "age": 24,
