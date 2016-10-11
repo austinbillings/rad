@@ -65,7 +65,7 @@ Returns a `string` best guess at a last name (or surname) given an expected full
 
 ### `Tools::getSiteURL(void)`
 
-** Get the the current domain, with protocol and port number. **
+**Get the the current domain, with protocol and port number.**
 
 *This function accepts no parameters.*
 
@@ -95,7 +95,7 @@ Returns the `string` URL of the request, including protocol and port number (if 
     // echoes "http://localhost:1234/api/books/1234";
 
 
-### `Tools::containsPeriod($input)`
+### `Tools::containsPeriod(string $input)`
 
 **Check whether or not a string contains a period.**
 
@@ -113,7 +113,7 @@ Returns a `boolean` indicating the presence of a period in the string given by `
     Tools::containsPeriod('/path/to/my/file.jpg');
     // returns true
 
-### `Tools::getFileExtension($input)`
+### `Tools::getFileExtension(string $input)`
 
 **Gets the extension portion of a file's URI.**
 
@@ -135,7 +135,7 @@ Actually returns the segment of the given string following the last period prese
     // returns 'xml'
 
 
-### `Tools::stripFileExtension($input)`
+### `Tools::stripFileExtension(string $input)`
 
 **Strips the extension portion of a file's URI.**
 
@@ -159,7 +159,7 @@ Actually returns the segment of the given string before the last period present.
     // returns '/path/to/my/file'
 
 
-### `Tools::parseQuery($queryString)`
+### `Tools::parseQuery(string $queryString)`
 
 **Converts a query string to a pre-typed associative array.**
 
