@@ -1,4 +1,4 @@
-# Rad
+![Rad Logo](http://austinbillings.com/projects/Rad.png)
 
 _A PHP nanoframework for building APIs at light speed._
 
