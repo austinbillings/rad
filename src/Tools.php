@@ -57,7 +57,7 @@ class Tools
 
 	// deprecated
 	public static function removeFileExtension ($input) {
-		return static::withoutFileExtension($input);
+		return static::stripFileExtension($input);
 	}
 
 	public static function parseQuery ($queryString) {
