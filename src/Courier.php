@@ -7,7 +7,7 @@ class Courier extends Base
 	public $settings;
 	public $message;
 
-	public function __construct () {
+	public function __construct ($settings = null) {
 		parent::__construct();
 		$this->settings = [
 			"system" => "php",
@@ -25,6 +25,9 @@ class Courier extends Base
 			"html" => null,
 			"text" => null
 		];
+		
+		if (!empty($settings)) $this->applySettings($settings);
+		
 	}
 
 	// ================================================================
@@ -123,7 +126,7 @@ class Courier extends Base
 		if (empty($this->settings["mandrillKey"])) {
 			$this->rage("Can't send email via mandrill, no mandrillKey provided.");
 		}
-		$mandrill = new Mandrill($this->settings["mandrillKey"]);
+		$mandrill = new \Mandrill($this->settings["mandrillKey"]);
 		$message = array(
 			'html' => $this->message["html"],
 			'text' => $this->message["text"],
@@ -149,29 +152,29 @@ class Courier extends Base
 		if (empty($this->settings["sendGridKey"])) {
 			$this->rage("Can't send via SendGrid: no API key provided.");
 		}
-		$sg = new SendGrid($this->settings["sendGridKey"]);
-		$from = new SendGrid\Email($this->settings["name"], $this->settings["from"]);
-		$content = new SendGrid\Content("text/html", $this->message["html"]);
+		$sg = new \SendGrid($this->settings["sendGridKey"]);
+		$from = new \SendGrid\Email($this->settings["name"], $this->settings["from"]);
+		$content = new \SendGrid\Content("text/html", $this->message["html"]);
 
 		if (is_string($this->settings["to"])) {
-			$to = new SendGrid\Email(null, $this->settings["to"]);
-			$mail = new SendGrid\Mail($from, $this->message["subject"], $to, $content);
+			$to = new \SendGrid\Email(null, $this->settings["to"]);
+			$mail = new \SendGrid\Mail($from, $this->message["subject"], $to, $content);
 
 			try {
 				$response = $sg->client->mail()->send()->post($mail);
-			} catch (Exception $e) {
+			} catch (\Exception $e) {
 				error_log("SendGrid Exception:".$e->getMessage());
 			}
 			return $response->statusCode() == 202;
 		} elseif (is_array($this->settings["to"])) {
 			$success = true;
 			foreach ($this->settings["to"] as $currentTo) {
-				$to = new SendGrid\Email(null, $currentTo);
-				$mail = new SendGrid\Mail($from, $this->message["subject"], $to, $content);
+				$to = new \SendGrid\Email(null, $currentTo);
+				$mail = new \SendGrid\Mail($from, $this->message["subject"], $to, $content);
 
 				try {
 					$response = $sg->client->mail()->send()->post($mail);
-				} catch (Exception $e) {
+				} catch (\Exception $e) {
 					error_log("SendGrid Exception:".$e->getMessage());
 				}
 				if ($response->statusCode() != 202) {
@@ -219,8 +222,8 @@ class Courier extends Base
 		if (empty($this->settings["sesAccessKey"]) || empty($this->settings["sesSecretKey"])) {
 			$this->rage("Can't send mail via SES, both keys not provided.");
 		}
-		$sesMail = new SimpleEmailService($this->settings["sesAccessKey"],$this->settings["sesSecretKey"]);
-		$m = new SimpleEmailServiceMessage();
+		$sesMail = new \SimpleEmailService($this->settings["sesAccessKey"],$this->settings["sesSecretKey"]);
+		$m = new \SimpleEmailServiceMessage();
 		if (is_string($this->settings["to"])) {
 			$m->addTo($this->settings["to"]);
 		} elseif (is_array($this->settings["to"])) {
