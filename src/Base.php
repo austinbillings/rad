@@ -13,7 +13,7 @@ class Base
 
 	public function __construct ($logFailures = null, $verbose = null, $silent = null) {
 		static::$meta["timestamp"] = time();
-		static::$meta["uri"] = $_SERVER["REQUEST_METHOD"] .' '. $_SERVER["REQUEST_URI"];
+		static::$meta["uri"] = ($_SERVER["REQUEST_METHOD"] ? $_SERVER["REQUEST_METHOD"].' '.$_SERVER["REQUEST_URI"] : null);
 		static::$meta["requestID"] = Tools::generateUniqueID(12);
 		if (!is_null($logFailures)) {
 			$this->logFailures = $logFailures;
@@ -40,7 +40,7 @@ class Base
 
 
 	public function checkQueryString () {
-		$query = Tools::parseQuery($_SERVER['QUERY_STRING']);
+		$query = Tools::parseQuery(!empty($_SERVER["QUERY_STRING"]) ? $_SERVER["QUERY_STRING"] : '');
 		if (isset($query["envelope"])) {
 			$this->verbose = $query["envelope"];
 		}
@@ -200,7 +200,9 @@ class Base
 		if (is_string($content) || is_numeric($content)) {
 			echo $content;
 		} else {
-			header('Content-Type: application/json');
+			if (!empty(static::$meta["uri"])) {
+				header('Content-Type: application/json');
+			}
 			echo Tools::jsonify($content);
 		}
 		die();

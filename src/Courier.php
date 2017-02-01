@@ -26,7 +26,7 @@ class Courier extends Base
 			"text" => null
 		];
 		
-		if (!empty($settings)) $this->applySettings($settings);
+		if (!empty($settings)) $this->assemble($settings);
 		
 	}
 
