@@ -54,4 +54,65 @@ See more [at their documentation](https://github.com/austinbillings/Rad/blob/mas
 
 ### Rad\Courier
 
-A class which extends `Rad\Base` and provides tools for preparing and sending email server-side.
+A class which extends `Rad\Base` and lets you easily prepare and send email server-side via **Sendgrid**, **Mandrill**, **Amazon SES**, or vanilla PHP with little to zero effort.
+
+#### Quick CLI Example (can easily also be used as a web service)
+
+From terminal:
+```bash
+composer require austinbillings/rad
+touch MySendScript.php
+```
+
+Now, the fun part:
+
+```php
+<?php 
+# MySendScript.php
+
+require('./vendor/autoload.php');
+
+# $blast is the HTML content of our email message
+# As long as the first character of the HTML is '<',
+# a plaintext version is automatically generated and sent as well.
+#
+# It can be specified separately by the #setMessage() function,
+# or by using an associative array here, like this:
+#
+# $blast = ["text" => $myTextMessage, "html" => $myHtmlVersion];
+#
+$blast = file_get_contents(__DIR__ . '/blast.html');
+echo "Blast size is ".strlen($blast)." chars\n\n";
+
+# Let's use dat Courier.
+$sender = new Rad\Courier([
+  "system" => "SendGrid", # case insensitive, accepts sendgrid, mandrill, ses, defaults to PHP
+  "sendGridKey"=> "SG.abcdefghijklm_abcdefgh.1-gabby0123456789abcdefghijklmnopqrstuvwxyz",
+  
+  "to" => $someListOfEmails, # You can use a string OR an array here
+  "from" => "austin@awesome-marketing.net", # Address of the SENDER
+  "name" => "GroundUP Music Festival", # Name of the SENDER
+  
+  "subject" => "GroundUp Music Festival lands on Miami Beach next week!",
+]);
+
+$sender->setMessage($blast);
+
+# ->send() synchronously returns a boolean: true if all sent, false if any failure.
+echo ($sender->send() ? 'Sent successfully!' : 'Send failed.')."\n";
+
+# ----------------------------------------------------------------------
+#                       yeah, it's that easy!
+# ----------------------------------------------------------------------
+
+```
+
+Then, simply run your script to send out the email blast.
+```bash
+php MySendScript.php
+> Blast size is 3175 chars
+>
+> Sent successfully!
+```
+
+Nice!

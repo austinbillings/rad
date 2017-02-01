@@ -13,7 +13,7 @@ class Base
 
 	public function __construct ($logFailures = null, $verbose = null, $silent = null) {
 		static::$meta["timestamp"] = time();
-		static::$meta["uri"] = ($_SERVER["REQUEST_METHOD"] ? $_SERVER["REQUEST_METHOD"].' '.$_SERVER["REQUEST_URI"] : null);
+		static::$meta["uri"] = (!empty($_SERVER["REQUEST_METHOD"]) ? $_SERVER["REQUEST_METHOD"].' '.$_SERVER["REQUEST_URI"] : null);
 		static::$meta["requestID"] = Tools::generateUniqueID(12);
 		if (!is_null($logFailures)) {
 			$this->logFailures = $logFailures;
