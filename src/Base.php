@@ -38,7 +38,6 @@ class Base
 		$this->checkQueryString();
 	}
 
-
 	public function checkQueryString () {
 		$query = Tools::parseQuery(!empty($_SERVER["QUERY_STRING"]) ? $_SERVER["QUERY_STRING"] : '');
 		if (isset($query["envelope"])) {
